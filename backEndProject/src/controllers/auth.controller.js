@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
+import { json } from "express";
 
 export const register = async (req, res) => {
   const { email, password, name, lastName } = req.body;
@@ -69,6 +70,19 @@ export const logout = (req,res) =>{
     return res.status(200).send('Cookie cleared');
 };
 
-export const profile = (req,res) =>{
-    res.send('profile')
+export const profile = async (req,res) =>{
+  const userFound =  await User.findById(req.user.id)
+  
+  if (!userFound) return res.status(400).json({message: " User not found"});
+
+  return res.json({
+    id: userFound._id,
+    userName: userFound.userName,
+    email: userFound.email,
+    createdAt: userFound.createdAt,
+    updatedAt: userFound.createdAt,
+  })
+
+  res.json('profile')
+  
 }
