@@ -66,6 +66,15 @@ export const getAllPublication = async (res) => {
   }
 };
 
+//TODO method to get all approved publications
+export const getAllPublicationByUser = async (res) => {
+
+  };
+
+//TODO method for delete only the publications made by the user 
+export const deleteUserPublication = async (req, res) => {};
+
+
 //! method for update status ONLY FOR ADMINS
 export const updatePublicationStatus = async (req, res) => {
   try {
@@ -143,4 +152,5 @@ export const getUnapprovedPublication = async (req, res) => {
   }
 };
 
-export const deletePublication = async (req, res) => {};
+//TODO method for delete any publications ONLY FOR ADMINS
+export const deleteAdminPublication = async (req, res) => {};
