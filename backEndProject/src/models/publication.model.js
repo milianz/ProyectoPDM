@@ -70,7 +70,7 @@ const publicationSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["unapproved", "approved", "pending"],
-      default: "unapproved",
+      default: "pending"
     },
   },
   {
