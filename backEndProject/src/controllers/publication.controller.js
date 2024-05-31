@@ -54,7 +54,7 @@ export const createPublication = async (req, res) => {
 };
 
 //! method to get all approved publications
-export const getAllPublication = async (req, res) => {
+export const getAllPublication = async (res) => {
   try {
     const publications = await Publication.find({
       status: "approved",
@@ -107,11 +107,9 @@ export const getPendingPublication = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user || user.role !== "admin") {
-      return res
-        .status(403)
-        .json({
-          error: "Forbidden: Only admin users can view pending publications",
-        });
+      return res.status(403).json({
+        error: "Forbidden: Only admin users can view pending publications",
+      });
     }
     const pendingPublications = await Publication.find({
       status: "pending",
@@ -126,17 +124,13 @@ export const getPendingPublication = async (req, res) => {
 //! method for get only unapproved publications ONLY FOR ADMINS
 export const getUnapprovedPublication = async (req, res) => {
   try {
-    // Verificar si el usuario tiene permisos de administrador
     const user = await User.findById(req.user.id);
     if (!user || user.role !== "admin") {
-      return res
-        .status(403)
-        .json({
-          error: "Forbidden: Only admin users can view unapproved publications",
-        });
+      return res.status(403).json({
+        error: "Forbidden: Only admin users can view unapproved publications",
+      });
     }
 
-    // Obtener todas las publicaciones no aprobadas
     const unapprovedPublications = await Publication.find({
       status: "unapproved",
     }).populate("seller", "name lastName");
