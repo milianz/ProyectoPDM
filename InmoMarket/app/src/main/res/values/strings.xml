@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">InmoMarket</string>
+
+    <!-- Login -->
+    <string name="login_header">Inicio de sesión</string>
+    <string name="login_inmomarket_icon">Icono de InmoMarket</string>
+    <string name="login_email">Correo electrónico</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_login">Iniciar sesión</string>
+    <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_or">O</string>
+    <string name="login_google_icon">Icono de Google</string>
+    <string name="login_google">Iniciar con Google</string>
+    <string name="login_dont_have_account">¿No tienes cuenta?</string>
+    <string name="login_create_account">Crea una.</string>
+
+</resources>
