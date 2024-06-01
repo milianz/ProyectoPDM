@@ -14,4 +14,14 @@
     <string name="login_dont_have_account">¿No tienes cuenta?</string>
     <string name="login_create_account">Crea una.</string>
 
+    <!--- Register -->
+    <string name="register">Registrarse</string>
+    <string name="register_first_name">Nombre</string>"
+    <string name="register_last_name">Apellido</string>
+    <string name="register_email">Correo electrónico</string>
+    <string name="register_create_password">Crear contraseña</string>
+    <string name="register_confirm_password">Confirmar contraseña</string>
+    <string name="register_already_have_account">¿Ya tienes cuenta?</string>
+    <string name="register_login">Inicia sesión.</string>
+
 </resources>

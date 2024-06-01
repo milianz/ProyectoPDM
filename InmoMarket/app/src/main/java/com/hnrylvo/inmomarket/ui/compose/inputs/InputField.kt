@@ -30,12 +30,13 @@ fun InputField(
     placeholderId: Int,
     keyboardType: KeyboardType,
     onValueChange: (String) -> Unit,
+    maxWidth: Float = 1f
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(maxWidth)
             .border(color = LightGreen, width = 1.dp, shape = RoundedCornerShape(18.dp))
             .clip(RoundedCornerShape(18.dp)),
         placeholder = {

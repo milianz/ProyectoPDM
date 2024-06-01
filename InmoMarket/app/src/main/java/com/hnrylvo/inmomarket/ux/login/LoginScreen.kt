@@ -58,7 +58,7 @@ fun Login(viewModel: LoginViewModel) {
         OrSection()
         Spacer(modifier = Modifier.padding(16.dp))
         GoogleButton()
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(16.dp))
         DontHaveAccount(Modifier.align(Alignment.CenterHorizontally))
     }
 }
@@ -67,14 +67,12 @@ fun Login(viewModel: LoginViewModel) {
 fun DontHaveAccount(modifier: Modifier) {
     Row(modifier = modifier){
         Text(
-            modifier = modifier,
             text = stringResource(id = R.string.login_dont_have_account),
             style = MyTypography.labelSmall,
             color = SecondaryGreen
         )
         Spacer(modifier = Modifier.padding(2.dp))
         Text(
-            modifier = modifier,
             text = stringResource(id = R.string.login_create_account),
             style = MyTypography.titleSmall,
             color = PrimaryGreen

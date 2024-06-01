@@ -1,6 +1,8 @@
 package com.hnrylvo.inmomarket.ui.compose.headers
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +20,8 @@ fun LoginHeader(
     headerText: Int
 ) {
     Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(id = headerText),
