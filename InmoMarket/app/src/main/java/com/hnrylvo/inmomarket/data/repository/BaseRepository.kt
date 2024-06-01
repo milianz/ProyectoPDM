@@ -20,7 +20,7 @@ abstract class BaseRepository {
 
 
     private suspend fun <T : Any> invokeDataProvider(dataProvider: suspend () -> T) =
-        flow<ApiResult<T>> {
+        flow {
             try {
                 emit(Success(dataProvider()))
             } catch (ex: IOException) {

@@ -127,7 +127,7 @@ fun OrSection() {
 fun LoginButton(onClick: () -> Unit) {
     PrimaryButton(
         buttonText = R.string.login_login,
-        onClick = {}
+        onClick = onClick
     )
 }
 
