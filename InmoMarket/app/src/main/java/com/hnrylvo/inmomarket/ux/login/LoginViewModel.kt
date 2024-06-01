@@ -9,6 +9,8 @@ import com.hnrylvo.inmomarket.data.networking.model.request.LoginRequest
 import com.hnrylvo.inmomarket.data.repository.AuthRepository
 import com.hnrylvo.inmomarket.data.utils.onFailure
 import com.hnrylvo.inmomarket.data.utils.onSuccess
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -32,7 +34,7 @@ class LoginViewModel : ViewModel() {
             password = _password.value.orEmpty()
         )
         viewModelScope.launch {
-            authRepository.login(request).onEach { response ->
+            authRepository.login(request).collectLatest { response ->
                 response.onSuccess {
                     Log.d("LoginViewModel", "login: ${it.email}")
                 }
