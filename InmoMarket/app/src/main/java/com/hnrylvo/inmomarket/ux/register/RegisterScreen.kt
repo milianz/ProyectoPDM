@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,26 +25,50 @@ import com.hnrylvo.inmomarket.ui.theme.MyTypography
 import com.hnrylvo.inmomarket.ui.theme.SecondaryGreen
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(viewModel: RegisterViewModel) {
     AppScaffold {
-        Register()
+        Register(viewModel)
     }
 }
 
 @Composable
-fun Register() {
+fun Register(viewModel: RegisterViewModel) {
+    val name by viewModel.name.collectAsState()
+    val lastName by viewModel.lastname.collectAsState()
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val confirmPassword by viewModel.confirmPassword.collectAsState()
+    val registerButtonEnabled by viewModel.enabled.collectAsState()
+
     Column {
         Header(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.padding(60.dp))
-        FullNameField()
+        FullNameField(
+            name = name,
+            onNameChange = {viewModel.onValueChanged(FieldType.NAME, it)},
+            lastname = lastName,
+            onLastNameChange = {viewModel.onValueChanged(FieldType.LASTNAME, it)}
+        )
         Spacer(modifier = Modifier.padding(15.dp))
-        EmailField()
+        EmailField(
+            email = email,
+            onEmailChange = {viewModel.onValueChanged(FieldType.EMAIL, it)}
+        )
         Spacer(modifier = Modifier.padding(15.dp))
-        PasswordField()
+        PasswordField(
+            password = password,
+            onPasswordChange = {viewModel.onValueChanged(FieldType.PASSWORD, it)}
+        )
         Spacer(modifier = Modifier.padding(15.dp))
-        ConfirmPasswordField()
+        ConfirmPasswordField(
+            confirmPass = confirmPassword,
+            onConfirmPassChange = {viewModel.onValueChanged(FieldType.CONFIRM_PASSWORD, it)}
+        )
         Spacer(modifier = Modifier.padding(50.dp))
-        RegisterButton(Modifier.align(Alignment.CenterHorizontally))
+        RegisterButton(Modifier.align(
+            Alignment.CenterHorizontally),
+            enabled = registerButtonEnabled
+        )
         Spacer(modifier = Modifier.padding(50.dp))
         AlreadyRegistered(Modifier.align(Alignment.CenterHorizontally))
     }
@@ -68,63 +94,76 @@ fun AlreadyRegistered(modifier: Modifier) {
 }
 
 @Composable
-fun RegisterButton(modifier: Modifier) {
+fun RegisterButton(modifier: Modifier, enabled: Boolean) {
     PrimaryButton(
         modifier = modifier,
         buttonText = R.string.register,
         onClick = {},
-        maxButtonWidth = 0.6f
+        maxButtonWidth = 0.6f,
+        enabled = enabled
     )
 }
 
 @Composable
-fun ConfirmPasswordField() {
+fun ConfirmPasswordField(
+    confirmPass: String,
+    onConfirmPassChange: (String) -> Unit
+) {
     InputField(
-        value = "",
+        value = confirmPass,
         placeholderId = R.string.register_confirm_password,
         keyboardType = KeyboardType.Password,
-        onValueChange = {}
+        onValueChange = {onConfirmPassChange(it)}
     )
 }
 
 @Composable
-fun PasswordField() {
+fun PasswordField(
+    password: String,
+    onPasswordChange: (String) -> Unit
+) {
     InputField(
-        value = "",
+        value = password,
         placeholderId = R.string.register_create_password,
         keyboardType = KeyboardType.Password,
-        onValueChange = {}
+        onValueChange = {onPasswordChange(it)}
     )
 }
 
 @Composable
-fun EmailField() {
+fun EmailField(
+    email: String,
+    onEmailChange: (String) -> Unit
+) {
     InputField(
-        value = "",
+        value = email,
         placeholderId = R.string.register_email,
         keyboardType = KeyboardType.Email,
-        onValueChange = {}
+        onValueChange = {onEmailChange(it)}
     )
 }
 
 @Composable
-fun FullNameField() {
+fun FullNameField(
+    name: String, onNameChange: (String) -> Unit,
+    lastname: String, onLastNameChange: (String) -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         InputField(
-            value = "",
+            value = name,
             placeholderId = R.string.register_first_name,
             keyboardType = KeyboardType.Text,
-            onValueChange = {},
+            onValueChange = {onNameChange(it)},
             maxWidth = 0.45f
         )
         InputField(
-            value = "",
+            value = lastname,
             placeholderId = R.string.register_last_name,
             keyboardType = KeyboardType.Text,
-            onValueChange = {},
+            onValueChange = {onLastNameChange(it)},
             maxWidth = 0.9f
         )
     }
@@ -141,5 +180,5 @@ fun Header(modifier: Modifier) {
 @Preview
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen()
+    RegisterScreen(viewModel = RegisterViewModel())
 }

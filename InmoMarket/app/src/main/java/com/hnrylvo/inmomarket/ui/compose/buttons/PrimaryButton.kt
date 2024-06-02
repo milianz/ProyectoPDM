@@ -19,21 +19,21 @@ import com.hnrylvo.inmomarket.ui.theme.PrimaryGreen
 @Composable
 fun PrimaryButton(
     onClick: () -> Unit = {},
-    //enabled: Boolean = true,
+    enabled: Boolean = false,
     buttonText: Int,
     maxButtonWidth: Float = 1f,
     modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
-        //enabled = enabled,
         modifier = modifier
             .fillMaxWidth(maxButtonWidth)
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = PrimaryGreen
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        enabled = enabled
     ) {
         Text(
             text = stringResource(id = buttonText),

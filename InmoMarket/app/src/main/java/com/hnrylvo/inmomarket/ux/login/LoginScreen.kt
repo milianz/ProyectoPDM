@@ -13,8 +13,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -42,8 +42,11 @@ fun LoginScreen(viewModel: LoginViewModel) {
 
 @Composable
 fun Login(viewModel: LoginViewModel) {
-    val email : String by viewModel.email.observeAsState(initial = "")
-    val password : String by viewModel.password.observeAsState(initial = "")
+
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val enableLogin by viewModel.loginEnabled.collectAsState()
+
     Column {
         Header(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.padding(60.dp))
@@ -53,7 +56,10 @@ fun Login(viewModel: LoginViewModel) {
         Spacer(modifier = Modifier.padding(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.padding(45.dp))
-        LoginButton(onClick = { viewModel.login() })
+        LoginButton(
+            enabled = enableLogin,
+            onClick = { viewModel.login() }
+        )
         Spacer(modifier = Modifier.padding(16.dp))
         OrSection()
         Spacer(modifier = Modifier.padding(16.dp))
@@ -88,7 +94,7 @@ fun GoogleButton() {
             .fillMaxWidth()
             .height(48.dp),
         colors = ButtonDefaults.buttonColors(containerColor = White),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ){
         Image(
             painter = painterResource(id = R.drawable.ic_google),
@@ -122,10 +128,14 @@ fun OrSection() {
 }
 
 @Composable
-fun LoginButton(onClick: () -> Unit) {
+fun LoginButton(
+    enabled: Boolean,
+    onClick: () -> Unit
+) {
     PrimaryButton(
         buttonText = R.string.login_login,
-        onClick = onClick
+        onClick = onClick,
+        enabled = enabled
     )
 }
 
