@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
-const uri ="mongodb+srv://milianz:root@cluster0.i5vog4i.mongodb.net/PDMPROJECT"
+import dotenv from "dotenv"
+
+dotenv.config();
+
 export const connectDB = async()=>{
     try {
 
-        await mongoose.connect(uri);
+        await mongoose.connect(process.env.MONGODB_URL,);
         console.log(">>>>> DB is connected");
         
     } catch (error) {
