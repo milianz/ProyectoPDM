@@ -1,5 +1,6 @@
 package com.hnrylvo.inmomarket.ux.register
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +13,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.hnrylvo.inmomarket.R
 import com.hnrylvo.inmomarket.ui.compose.buttons.PrimaryButton
 import com.hnrylvo.inmomarket.ui.compose.containers.AppScaffold
@@ -23,16 +26,18 @@ import com.hnrylvo.inmomarket.ui.compose.headers.LoginHeader
 import com.hnrylvo.inmomarket.ui.compose.inputs.InputField
 import com.hnrylvo.inmomarket.ui.theme.MyTypography
 import com.hnrylvo.inmomarket.ui.theme.SecondaryGreen
+import com.hnrylvo.inmomarket.ux.login.LoginRoute
 
 @Composable
-fun RegisterScreen(viewModel: RegisterViewModel) {
+fun RegisterScreen(navController: NavController) {
+    val viewModel = RegisterViewModel()
     AppScaffold {
-        Register(viewModel)
+        Register(viewModel, navController)
     }
 }
 
 @Composable
-fun Register(viewModel: RegisterViewModel) {
+fun Register(viewModel: RegisterViewModel, navController: NavController) {
     val name by viewModel.name.collectAsState()
     val lastName by viewModel.lastname.collectAsState()
     val email by viewModel.email.collectAsState()
@@ -67,15 +72,16 @@ fun Register(viewModel: RegisterViewModel) {
         Spacer(modifier = Modifier.padding(50.dp))
         RegisterButton(Modifier.align(
             Alignment.CenterHorizontally),
-            enabled = registerButtonEnabled
+            enabled = registerButtonEnabled,
+            navController
         )
         Spacer(modifier = Modifier.padding(50.dp))
-        AlreadyRegistered(Modifier.align(Alignment.CenterHorizontally))
+        AlreadyRegistered(Modifier.align(Alignment.CenterHorizontally), navController)
     }
 }
 
 @Composable
-fun AlreadyRegistered(modifier: Modifier) {
+fun AlreadyRegistered(modifier: Modifier, navController: NavController) {
     Row(
         modifier = modifier
     ) {
@@ -86,6 +92,9 @@ fun AlreadyRegistered(modifier: Modifier) {
         )
         Spacer(modifier = Modifier.padding(2.dp))
         Text(
+            modifier = Modifier.clickable {
+                navController.navigate(route = LoginRoute.route)
+            },
             text = stringResource(id = R.string.register_login),
             style = MyTypography.titleSmall,
             color = SecondaryGreen
@@ -94,11 +103,13 @@ fun AlreadyRegistered(modifier: Modifier) {
 }
 
 @Composable
-fun RegisterButton(modifier: Modifier, enabled: Boolean) {
+fun RegisterButton(modifier: Modifier, enabled: Boolean, navController: NavController) {
     PrimaryButton(
         modifier = modifier,
         buttonText = R.string.register,
-        onClick = {},
+        onClick = {
+            navController.navigate(route = LoginRoute.route)
+        },
         maxButtonWidth = 0.6f,
         enabled = enabled
     )
@@ -180,5 +191,5 @@ fun Header(modifier: Modifier) {
 @Preview
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen(viewModel = RegisterViewModel())
+    RegisterScreen(navController = NavController(LocalContext.current))
 }

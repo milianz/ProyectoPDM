@@ -1,6 +1,7 @@
 package com.hnrylvo.inmomarket.ux.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,11 +18,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.hnrylvo.inmomarket.R
 import com.hnrylvo.inmomarket.ui.compose.buttons.PrimaryButton
 import com.hnrylvo.inmomarket.ui.compose.containers.AppScaffold
@@ -32,16 +35,18 @@ import com.hnrylvo.inmomarket.ui.theme.MyTypography
 import com.hnrylvo.inmomarket.ui.theme.PrimaryGreen
 import com.hnrylvo.inmomarket.ui.theme.SecondaryGreen
 import com.hnrylvo.inmomarket.ui.theme.White
+import com.hnrylvo.inmomarket.ux.register.RegisterRoute
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(navController: NavController) {
+    val viewModel = LoginViewModel()
     AppScaffold {
-        Login(viewModel)
+        Login(viewModel, navController)
     }
 }
 
 @Composable
-fun Login(viewModel: LoginViewModel) {
+fun Login(viewModel: LoginViewModel, navController: NavController) {
 
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
@@ -65,12 +70,12 @@ fun Login(viewModel: LoginViewModel) {
         Spacer(modifier = Modifier.padding(16.dp))
         GoogleButton()
         Spacer(modifier = Modifier.padding(16.dp))
-        DontHaveAccount(Modifier.align(Alignment.CenterHorizontally))
+        DontHaveAccount(Modifier.align(Alignment.CenterHorizontally), navController)
     }
 }
 
 @Composable
-fun DontHaveAccount(modifier: Modifier) {
+fun DontHaveAccount(modifier: Modifier, navController: NavController) {
     Row(modifier = modifier){
         Text(
             text = stringResource(id = R.string.login_dont_have_account),
@@ -79,6 +84,9 @@ fun DontHaveAccount(modifier: Modifier) {
         )
         Spacer(modifier = Modifier.padding(2.dp))
         Text(
+            modifier = Modifier.clickable {
+                navController.navigate(route = RegisterRoute.route)
+            },
             text = stringResource(id = R.string.login_create_account),
             style = MyTypography.titleSmall,
             color = PrimaryGreen
@@ -180,5 +188,5 @@ fun Header(modifier: Modifier) {
 @Composable
 @Preview(showSystemUi = true)
 fun LoginScreenPreview() {
-    LoginScreen(viewModel = LoginViewModel())
+    LoginScreen(navController = NavController(LocalContext.current))
 }
