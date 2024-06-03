@@ -68,7 +68,6 @@ export const getAllPublication = async (res) => {
 
 //TODO method to get all approved publications
 export const getAllPublicationByUser = async (res) => {
-
   };
 
 //TODO method for delete only the publications made by the user 
