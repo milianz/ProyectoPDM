@@ -1,80 +1,114 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+
+const imageSchema = new mongoose.Schema({
+  public_id: String,
+  secure_url: String,
+});
+
+const scheduleSchema = new mongoose.Schema({
+  day: {
+    type: String,
+    required: true,
+  },
+  startHour: {
+    type: String,
+    required: true,
+  },
+  startMinute: {
+    type: String,
+    required: true,
+  },
+  finishHour: {
+    type: String,
+    required: true,
+  },
+  finishMinute: {
+    type: String,
+    required: true,
+  },
+});
 
 const publicationSchema = new mongoose.Schema(
   {
-    type: {
+    propertyType: {
       type: String,
       required: true,
     },
-    state: {
+    neighborhood: {
       type: String,
       required: true,
     },
-    city: {
+    municipality: {
       type: String,
       required: true,
     },
-    town: {
+    department: {
       type: String,
       required: true,
     },
-    address: {
+    propertyAddress: {
       type: String,
       required: true,
     },
-    area: {
+    longitude: {
       type: Number,
       required: true,
     },
-    floors:{
-        type: Number,
-        required: true,
-    },
-    rooms: {
+    latitude: {
       type: Number,
       required: true,
     },
-    other: [
-      {
-        type: String,
-      },
-    ],
-    description: {
+    propertySize: {
       type: String,
       required: true,
     },
-    price: {
+    propertyBedrooms: {
+      type: String,
+      required: true,
+    },
+    propertyBathrooms: {
+      type: String,
+      required: true,
+    },
+    propertyFloors: {
+      type: String,
+      required: true,
+    },
+    propertyParking: {
       type: Number,
+      required: true,
+    },
+    propertyFurnished: {
+      type: String,
+      required: true,
+    },
+    propertyDescription: {
+      type: String,
+      required: true,
+    },
+    propertyPrice: {
+      type: String,
       required: true,
     },
     availability: {
-      type: Map,
-      of: [String],
+      type: String,
       required: true,
     },
-    images: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-    date: {
-      type: Date,
-      default: Date.now,
-    },
+    scheduleViewing: [scheduleSchema],
+    propertyImages: [imageSchema], 
     seller: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
     status: {
       type: String,
-      enum: ["unapproved", "approved", "pending"],
-      default: "pending"
+      enum: ['unapproved', 'approved', 'pending'],
+      default: 'pending',
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 

@@ -59,21 +59,21 @@ export const login = async (req, res) => {
   }
 };
 
-export const logout = (req,res) =>{
-    res.cookie('token', '', {
-        expires: new Date(0),
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict'
-    });
+export const logout = (req, res) => {
+  res.cookie("token", "", {
+    expires: new Date(0),
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
 
-    return res.status(200).send('Cookie cleared');
+  return res.status(200).send("Cookie cleared");
 };
 
-export const profile = async (req,res) =>{
-  const userFound =  await User.findById(req.user.id)
-  
-  if (!userFound) return res.status(400).json({message: " User not found"});
+export const profile = async (req, res) => {
+  const userFound = await User.findById(req.user.id);
+
+  if (!userFound) return res.status(400).json({ message: " User not found" });
 
   return res.json({
     id: userFound._id,
@@ -81,8 +81,11 @@ export const profile = async (req,res) =>{
     role: userFound.role,
     createdAt: userFound.createdAt,
     updatedAt: userFound.createdAt,
-  })
+  });
 
-  res.json('profile')
-  
-}
+  res.json("profile");
+};
+
+export const forgotPassword = async (req, res) => {};
+
+export const resetPassword = async (req, res) => {};
