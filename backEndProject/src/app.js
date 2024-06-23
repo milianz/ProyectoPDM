@@ -11,9 +11,9 @@ import publicationRoutes from './routes/publication.routes.js';
 
 const app = express();
 
-
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 const uploadDir = path.join(__dirname, 'uploads');
-
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
