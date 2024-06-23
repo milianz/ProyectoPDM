@@ -90,8 +90,12 @@ const publicationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    availability: {
+      type: String,
+      required: true,
+    },
     scheduleViewing: [scheduleSchema],
-    images: [imageSchema], 
+    propertyImages: [imageSchema], 
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

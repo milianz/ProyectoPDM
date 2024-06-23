@@ -21,7 +21,8 @@ export const createPublication = async (req, res) => {
     propertyFurnished,
     propertyDescription,
     propertyPrice,
-    scheduleViewing
+    availability,
+    scheduleViewing,
   } = req.body;
 
   try {
@@ -42,28 +43,27 @@ export const createPublication = async (req, res) => {
       propertyBedrooms,
       propertyBathrooms,
       propertyFloors,
-      propertyParking,
+      propertyParking: Number(propertyParking),
       propertyFurnished,
       propertyDescription,
       propertyPrice,
+      availability,
       scheduleViewing: JSON.parse(scheduleViewing),
-      images: [],
+      propertyImages: [],
       seller: userFound._id,
     });
 
     if (req.files && req.files.images) {
-      const images = Array.isArray(req.files.images)
-        ? req.files.images
-        : [req.files.images];
-
-      for (const image of images) {
+      const imageFiles = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
+      for (const image of imageFiles) {
         const result = await uploadImage(image.tempFilePath);
-        newPublication.images.push({
+        newPublication.propertyImages.push({
           public_id: result.public_id,
           secure_url: result.secure_url,
         });
+        await fs.unlink(image.tempFilePath);
       }
-      images.forEach((image) => fs.unlink(image.tempFilePath));
+    }
 
     const publicationSaved = await newPublication.save();
 
@@ -71,7 +71,6 @@ export const createPublication = async (req, res) => {
       message: "Publication created successfully",
       publication: publicationSaved,
     });
-  }
   } catch (error) {
     console.error("Error creating publication:", error);
     res.status(500).json({ error: "Publication creation failed" });
