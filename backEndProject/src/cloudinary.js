@@ -10,6 +10,6 @@ cloudinary.config({
   secure: true,
 });
 
-export async function uploadImage(file) {
-    return await cloudinary.uploader.upload(file,{ folder:'InmoMarket'});
+export async function uploadImage(filePath) {
+    return await cloudinary.uploader.upload(filePath,{folder: 'InmoMarket'});
   }

@@ -1,4 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+
+const imageSchema = new mongoose.Schema({
+  public_id: String,
+  secure_url: String,
+});
 
 const publicationSchema = new mongoose.Schema(
   {
@@ -50,24 +55,17 @@ const publicationSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    date: {
-      type: Date,
-      default: Date.now,
-    },
-    image: {
-      public_id: String,
-      secure_url: String,
-    },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true
+      required: true,
     },
     status: {
       type: String,
-      enum: ["unapproved", "approved", "pending"],
-      default: "pending"
+      enum: ['unapproved', 'approved', 'pending'],
+      default: 'pending',
     },
+    images: [imageSchema], 
   },
   {
     timestamps: true,

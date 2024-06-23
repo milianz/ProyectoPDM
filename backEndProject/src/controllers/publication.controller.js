@@ -1,10 +1,9 @@
 import Publication from "../models/publication.model.js";
 import User from "../models/user.model.js";
-import {uploadImage} from "../cloudinary.js";
-import fs from 'fs/promises'; 
-//! method to create a publications
-// Importa fs desde las promesas para eliminar archivos
+import { uploadImage } from "../cloudinary.js";
+import fs from "fs-extra";
 
+//! method to create a publications
 export const createPublication = async (req, res) => {
   const {
     type,
@@ -22,13 +21,11 @@ export const createPublication = async (req, res) => {
   } = req.body;
 
   try {
-    // Verifica si el usuario existe
     const userFound = await User.findById(req.user.id);
     if (!userFound) {
       return res.status(400).json({ message: "User not found" });
     }
 
-    // Crea una nueva instancia de Publicación
     let newPublication = new Publication({
       type,
       state,
@@ -43,33 +40,31 @@ export const createPublication = async (req, res) => {
       description,
       price,
       seller: userFound._id,
+      images: [],
     });
 
-    // Si se proporciona una imagen, súbela a Cloudinary y actualiza la publicación
-    if (req.files?.image) {
-      const result = await uploadImage(req.files.image.tempFilePath);
-      console.log(result); // Puedes registrar el resultado de la subida en la consola para verificar
+    if (req.files && req.files.images) {
+      const images = Array.isArray(req.files.images)
+        ? req.files.images
+        : [req.files.images];
 
-      // Asigna el public_id y secure_url de la imagen subida a la publicación
-      newPublication.image = {
-        public_id: result.public_id,
-        secure_url: result.secure_url,
-      };
-
-      // Elimina el archivo temporal después de la subida
-      await fs.unlink(req.files.image.tempFilePath);
+      for (const image of images) {
+        const result = await uploadImage(image.tempFilePath);
+        newPublication.images.push({
+          public_id: result.public_id,
+          secure_url: result.secure_url,
+        });
+      }
+      images.forEach((image) => fs.unlink(image.tempFilePath));
     }
 
-    // Guarda la nueva publicación en la base de datos
     const publicationSaved = await newPublication.save();
 
-    // Devuelve una respuesta con el estado 201 y los datos de la publicación guardada
     res.status(201).json({
       message: "Publication created successfully",
       publication: publicationSaved,
     });
   } catch (error) {
-    // Maneja errores y registra un mensaje de error genérico
     console.error("Error creating publication:", error);
     res.status(500).json({ error: "Publication creation failed" });
   }
@@ -88,12 +83,10 @@ export const getAllPublication = async (res) => {
 };
 
 //TODO method to get all approved publications
-export const getAllPublicationByUser = async (res) => {
-  };
+export const getAllPublicationByUser = async (res) => {};
 
-//TODO method for delete only the publications made by the user 
+//TODO method for delete only the publications made by the user
 export const deleteUserPublication = async (req, res) => {};
-
 
 //! method for update status ONLY FOR ADMINS
 export const updatePublicationStatus = async (req, res) => {
