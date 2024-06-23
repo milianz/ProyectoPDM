@@ -6,18 +6,22 @@ import fs from "fs-extra";
 //! method to create a publications
 export const createPublication = async (req, res) => {
   const {
-    type,
-    state,
-    city,
-    town,
-    address,
-    area,
-    rooms,
-    latitude,
+    propertyType,
+    neighborhood,
+    municipality,
+    department,
+    propertyAddress,
     longitude,
-    floors,
-    description,
-    price,
+    latitude,
+    propertySize,
+    propertyBedrooms,
+    propertyBathrooms,
+    propertyFloors,
+    propertyParking,
+    propertyFurnished,
+    propertyDescription,
+    propertyPrice,
+    scheduleViewing
   } = req.body;
 
   try {
@@ -27,20 +31,24 @@ export const createPublication = async (req, res) => {
     }
 
     let newPublication = new Publication({
-      type,
-      state,
-      city,
-      town,
-      address,
-      area,
-      rooms,
-      latitude,
+      propertyType,
+      neighborhood,
+      municipality,
+      department,
+      propertyAddress,
       longitude,
-      floors,
-      description,
-      price,
-      seller: userFound._id,
+      latitude,
+      propertySize,
+      propertyBedrooms,
+      propertyBathrooms,
+      propertyFloors,
+      propertyParking,
+      propertyFurnished,
+      propertyDescription,
+      propertyPrice,
+      scheduleViewing: JSON.parse(scheduleViewing),
       images: [],
+      seller: userFound._id,
     });
 
     if (req.files && req.files.images) {
@@ -56,7 +64,6 @@ export const createPublication = async (req, res) => {
         });
       }
       images.forEach((image) => fs.unlink(image.tempFilePath));
-    }
 
     const publicationSaved = await newPublication.save();
 
@@ -64,6 +71,7 @@ export const createPublication = async (req, res) => {
       message: "Publication created successfully",
       publication: publicationSaved,
     });
+  }
   } catch (error) {
     console.error("Error creating publication:", error);
     res.status(500).json({ error: "Publication creation failed" });
