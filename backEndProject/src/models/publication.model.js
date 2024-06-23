@@ -26,19 +26,22 @@ const publicationSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    floors:{
-        type: Number,
-        required: true,
+    floors: {
+      type: Number,
+      required: true,
     },
     rooms: {
       type: Number,
       required: true,
     },
-    other: [
-      {
-        type: String,
-      },
-    ],
+    longitude: {
+      type: Number,
+      required: true,
+    },
+    latitude: {
+      type: Number,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
@@ -47,25 +50,18 @@ const publicationSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    availability: {
-      type: Map,
-      of: [String],
-      required: true,
-    },
-    images: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
     date: {
       type: Date,
       default: Date.now,
     },
+    image: {
+      public_id: String,
+      secure_url: String,
+    },
     seller: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
     },
     status: {
       type: String,
@@ -74,7 +70,7 @@ const publicationSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
