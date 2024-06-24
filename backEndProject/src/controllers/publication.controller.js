@@ -69,7 +69,6 @@ export const createPublication = async (req, res) => {
 
     res.status(201).json({
       message: "Publication created successfully",
-      publication: publicationSaved,
     });
   } catch (error) {
     console.error("Error creating publication:", error);
