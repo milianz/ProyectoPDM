@@ -52,6 +52,7 @@ export const login = async (req, res) => {
       email: userFound.email,
       createdAt: userFound.createdAt,
       updatedAt: userFound.createdAt,
+      token: token,
     });
   } catch (error) {
     console.log(error);
