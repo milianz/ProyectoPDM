@@ -30,8 +30,7 @@ export const createPublication = async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
 
-    const parsedScheduleViewing = JSON.parse(scheduleViewing);
-
+    
     let newPublication = new Publication({
       propertyType,
       neighborhood,
@@ -48,7 +47,7 @@ export const createPublication = async (req, res) => {
       propertyFurnished,
       propertyDescription,
       propertyPrice,
-      scheduleViewing: parsedScheduleViewing,
+      scheduleViewing: scheduleViewing,
       images: [],
       seller: userFound._id,
     });
