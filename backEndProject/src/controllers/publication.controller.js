@@ -110,7 +110,18 @@ export const getAllPublication = async (res) => {
 };
 
 //TODO method to get all approved publications
-export const getAllPublicationByUser = async (res) => {};
+export const getAllPublicationByUser = async (res) => {
+  try {
+    const publications = await Publication.find({
+      status: "approved",
+      seller: req.user.id,
+    }).populate("seller", "name lastName");
+    res.status(200).json(publications);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to retrieve approved publications" });
+  }
+};
 
 //TODO method for delete only the publications made by the user
 export const deleteUserPublication = async (req, res) => {};

@@ -16,9 +16,9 @@ router.post("/publication/create", authRequired, createPublication);
 router.get("/publication/all", authRequired, getAllPublication);
 router.get("/publication/user/all", authRequired, getAllPublicationByUser);
 router.delete("/publication/user/delete/:id", authRequired, deleteUserPublication);
-router.put("/publication/admin/status/:id", authRequired, updatePublicationStatus);
+/*router.put("/publication/admin/status/:id", authRequired, updatePublicationStatus);
 router.get("/publication/admin/pending", authRequired, getPendingPublication);
 router.get("/publication/admin/unapproved",authRequired, getUnapprovedPublication);
-router.delete("/publication/admin/delete", authRequired, deleteAdminPublication);
+router.delete("/publication/admin/delete", authRequired, deleteAdminPublication);*/
 
 export default router;
