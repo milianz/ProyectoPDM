@@ -5,7 +5,28 @@ const imageSchema = new mongoose.Schema({
   secure_url: String,
 });
 
-
+const scheduleSchema = new mongoose.Schema({
+  day: {
+    type: String,
+    required: true,
+  },
+  startHour: {
+    type: String,
+    required: true,
+  },
+  startMinute: {
+    type: String,
+    required: true,
+  },
+  finishHour: {
+    type: String,
+    required: true,
+  },
+  finishMinute: {
+    type: String,
+    required: true,
+  },
+});
 
 const publicationSchema = new mongoose.Schema(
   {
@@ -69,6 +90,7 @@ const publicationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    scheduleViewing: [scheduleSchema],
     images: [imageSchema], 
     seller: {
       type: mongoose.Schema.Types.ObjectId,
