@@ -2,6 +2,7 @@ import Publication from "../models/publication.model.js";
 import User from "../models/user.model.js";
 import { uploadImage } from "../cloudinary.js";
 import fs from "fs-extra";
+import fetch from 'node-fetch';
 
 //! method to create a publications
 export const createPublication = async (req, res) => {
@@ -21,7 +22,8 @@ export const createPublication = async (req, res) => {
     propertyFurnished,
     propertyDescription,
     propertyPrice,
-    scheduleViewing
+    scheduleViewing,
+    imageUris
   } = req.body;
 
   try {
@@ -65,6 +67,24 @@ export const createPublication = async (req, res) => {
        }
        images.forEach((image)=> fs.unlink(image.tempFilePath));
     }
+
+
+    if (imageUris) {
+      const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
+      for (const uri of uris) {
+        const response = await fetch(uri);
+        const buffer = await response.buffer();
+        const tempFilePath = path.join('tmp', `${Date.now()}-${path.basename(uri)}`);
+        fs.writeFileSync(tempFilePath, buffer);
+        const result = await uploadImage(tempFilePath);
+        newPublication.images.push({
+          public_id: result.public_id,
+          secure_url: result.secure_url,
+        });
+        fs.unlinkSync(tempFilePath);
+      }
+    }
+
 
     const publicationSaved = await newPublication.save();
 
