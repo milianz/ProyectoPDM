@@ -3,6 +3,7 @@ import User from "../models/user.model.js";
 import { uploadImage } from "../cloudinary.js";
 import fs from "fs-extra";
 import fetch from 'node-fetch';
+import path from 'path';
 
 //! method to create a publications
 export const createPublication = async (req, res) => {
@@ -23,7 +24,7 @@ export const createPublication = async (req, res) => {
     propertyDescription,
     propertyPrice,
     scheduleViewing,
-    imageUris
+    imageUris,
   } = req.body;
 
   try {
@@ -98,7 +99,6 @@ export const createPublication = async (req, res) => {
         fs.unlinkSync(tempFilePath);
       }
     }
-
 
     const publicationSaved = await newPublication.save();
 
