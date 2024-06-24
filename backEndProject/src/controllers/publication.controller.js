@@ -42,7 +42,7 @@ export const createPublication = async (req, res) => {
       propertyBedrooms,
       propertyBathrooms,
       propertyFloors,
-      propertyParking,
+      propertyParking: Number(propertyParking), // Asegúrate de que sea un número
       propertyFurnished,
       propertyDescription,
       propertyPrice,
@@ -51,19 +51,19 @@ export const createPublication = async (req, res) => {
       seller: userFound._id,
     });
 
-    if (req.files && req.files.images) {
+    if(req.files && req.files.images){
       const images = Array.isArray(req.files.images)
-        ? req.files.images
-        : [req.files.images];
-
-      for (const image of images) {
+       ? req.files.images 
+       : [req.files.images];
+       for (const image of images) {
         const result = await uploadImage(image.tempFilePath);
         newPublication.images.push({
           public_id: result.public_id,
           secure_url: result.secure_url,
         });
-      }
-      images.forEach((image) => fs.unlink(image.tempFilePath));
+       }
+       images.forEach((image)=> fs.unlink(image.tempFilePath));
+    }
 
     const publicationSaved = await newPublication.save();
 
@@ -71,7 +71,6 @@ export const createPublication = async (req, res) => {
       message: "Publication created successfully",
       publication: publicationSaved,
     });
-  }
   } catch (error) {
     console.error("Error creating publication:", error);
     res.status(500).json({ error: "Publication creation failed" });

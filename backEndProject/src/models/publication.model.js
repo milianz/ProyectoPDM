@@ -75,7 +75,7 @@ const publicationSchema = new mongoose.Schema(
       required: true,
     },
     propertyParking: {
-      type: Number,
+      type: Number, // Cambiado a número
       required: true,
     },
     propertyFurnished: {
@@ -90,12 +90,8 @@ const publicationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    availability: {
-      type: String,
-      required: true,
-    },
     scheduleViewing: [scheduleSchema],
-    propertyImages: [imageSchema], 
+    images: [imageSchema], 
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
