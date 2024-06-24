@@ -75,7 +75,7 @@ export const createPublication = async (req, res) => {
       for (const uri of uris) {
         const response = await fetch(uri);
         const buffer = await response.buffer();
-        const tempFilePath = path.join('tmp', `${Date.now()}-${path.basename(uri)}`);
+        const tempFilePath = path.join('/tmp', `${Date.now()}-${path.basename(uri)}`);
         fs.writeFileSync(tempFilePath, buffer);
         const result = await uploadImage(tempFilePath);
         newPublication.images.push({
@@ -89,14 +89,18 @@ export const createPublication = async (req, res) => {
     if (req.body.images) {
       const imagePaths = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
       for (const image of imagePaths) {
-        const tempFilePath = path.join('tmp', `${Date.now()}-${path.basename(image.path)}`);
-        fs.copyFileSync(image.path, tempFilePath);
-        const result = await uploadImage(tempFilePath);
-        newPublication.images.push({
-          public_id: result.public_id,
-          secure_url: result.secure_url,
-        });
-        fs.unlinkSync(tempFilePath);
+        try {
+          const tempFilePath = path.join('/tmp', `${Date.now()}-${path.basename(image.path)}`);
+          fs.copyFileSync(image.path, tempFilePath);
+          const result = await uploadImage(tempFilePath);
+          newPublication.images.push({
+            public_id: result.public_id,
+            secure_url: result.secure_url,
+          });
+          fs.unlinkSync(tempFilePath);
+        } catch (error) {
+          console.error('Error copying file:', error);
+        }
       }
     }
 
