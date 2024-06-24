@@ -54,7 +54,7 @@ export const createPublication = async (req, res) => {
       seller: userFound._id,
     });
 
-    /*if(req.files && req.files.images){
+    if(req.files && req.files.images){
       const images = Array.isArray(req.files.images)
        ? req.files.images 
        : [req.files.images];
@@ -67,7 +67,7 @@ export const createPublication = async (req, res) => {
        }
        images.forEach((image)=> fs.unlink(image.tempFilePath));
     }
-*/
+
 
     if (imageUris) {
       const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
