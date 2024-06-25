@@ -10,6 +10,7 @@ import {
   getAllPublicationByUser,
   deleteUserPublication,
 } from "../controllers/publication.controller.js";
+
 const router = Router();
 
 router.post("/publication/create", authRequired, createPublication);

@@ -115,7 +115,8 @@ export const createPublication = async (req, res) => {
   }
 };
 //! method to get all approved publications
-export const getAllPublication = async (res) => {
+// Adjust the import according to your file structure
+export const getAllPublication = async (req, res) => {
   try {
     const publications = await Publication.find({
       status: "approved",
