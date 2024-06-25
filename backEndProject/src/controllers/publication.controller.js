@@ -224,3 +224,13 @@ export const getUnapprovedPublication = async (req, res) => {
 
 //TODO method for delete any publications ONLY FOR ADMINS
 export const deleteAdminPublication = async (req, res) => {};
+
+export const getAllPublicationById = async (req, res) => {
+  try {
+    const publication = await Publication.findById(req.params.id).populate("seller", "name lastName");
+    res.status(200).json(publication);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to retrieve publication" });
+  }
+}
