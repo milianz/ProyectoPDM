@@ -129,7 +129,7 @@ export const getAllPublication = async (req, res) => {
 };
 
 //TODO method to get all approved publications
-export const getAllPublicationByUser = async (res) => {
+export const getAllPublicationByUser = async (req,res) => {
   try {
     const publications = await Publication.find({
       status: "approved",
