@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
-import { isPasswordSecure } from "../middleware/validatePassWord.js";
+
 
 
 export const register = async (req, res) => {
@@ -15,7 +15,6 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: passwordHash,
-      emailToken: "",
     });
 
     const userSaved = await newUser.save();
