@@ -7,20 +7,7 @@ import { isPasswordSecure } from "../middleware/validatePassWord.js";
 export const register = async (req, res) => {
   const { email, password, name, lastName } = req.body;
 
-  if (!email || !password || !name || !lastName) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
-
-  if (!isPasswordSecure(password)) {
-    return res.status(400).json({ error: "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters" });
-  }
-
   try {
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
-    }
     const passwordHash = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -28,7 +15,7 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: passwordHash,
-  
+      emailToken: "",
     });
 
     const userSaved = await newUser.save();
@@ -99,6 +86,7 @@ export const profile = async (req, res) => {
     createdAt: userFound.createdAt,
     updatedAt: userFound.createdAt,
   });
+
 
 };
 
